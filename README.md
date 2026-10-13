@@ -151,9 +151,8 @@ scoring and safe outbound, `SEED.md` + `BOOTSTRAP-CLAUDE.md` for the first sessi
 
 **Next**, in the order we would take it ourselves:
 
-- **Fix the onboarding** ([#1](https://github.com/tonydzi/second-brain-starter-kit/issues/1)):
-  `ONBOARDING.md` walks a newcomer through five folders that do not exist in this repository. It is
-  the first screen a stranger sees, and it lies — top of the queue.
+- **Try the [30-minute onboarding route](docs/ONBOARDING.md)** through the shipped rules,
+  skills, engines, templates and CRM demo; report any step that does not work on your machine.
 - **A "clone it and it works" check on someone else's machine.** Right now the only proof is that we
   use this ourselves every day. That is usage, not a test: no third-party machine has ever been seen.
 - **Localized READMEs** for non-English venues (Chinese, Japanese, Korean, Spanish) — the skill
@@ -195,7 +194,6 @@ what we have not built ourselves:
 
 - [Clone this on a machine that is not ours and write down everything that breaks](https://github.com/tonydzi/second-brain-starter-kit/issues/2)
 - [Localize the README (Chinese, Japanese, Korean or Spanish)](https://github.com/tonydzi/second-brain-starter-kit/issues/3)
-- [ONBOARDING.md routes newcomers through five directories that do not exist here](https://github.com/tonydzi/second-brain-starter-kit/issues/1)
 
 Issues labelled [`accepted`](https://github.com/tonydzi/second-brain-starter-kit/issues?q=is%3Aissue+is%3Aopen+label%3Aaccepted) are scoped, free to take, and nobody is on them.
 Comment **"claiming this"** — no permission needed — and it is yours for 7 days.
