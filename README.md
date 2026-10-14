@@ -7,7 +7,15 @@ A starter kit for running **Claude Code as a second brain + working assistant**,
 This is the system we run ourselves every day — stripped of personal data and cut down to a
 portable core: **the method, not the data**.
 
-## Why take the whole thing, not one skill
+**New to this? Start with [the light onboarding guide](ONBOARDING-LITE.md).**
+Download a folder, open it in Claude Code or Codex, and try one useful task. No terminal,
+GitHub account, shared vault, sync service, or background updater is needed for this route.
+The kit is a reference you receive; your work stays in a separate local folder.
+
+## Later: the full kit after your first useful task
+
+This is an optional next stage. First-time users should finish [the light route](ONBOARDING-LITE.md)
+before installing the full kit below.
 
 A single skill is a trick. What makes an agent useful over months is the set of habits around it:
 a gate that refuses to say "done" without evidence, a retrospective that files what you learned
