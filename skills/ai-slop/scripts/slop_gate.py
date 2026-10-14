@@ -784,10 +784,10 @@ def _mail_is_ours(addr):
     a = addr.lower()
     if a in BOT_MAIL_ALLOW:
         return "публичный адрес бота-соавтора из реестра трейлеров"
-    m = re.match(r"^(\d+)\+([a-z0-9._-]+)[аккаунт]\.noreply\.github\.com$", a)
+    m = re.match(r"^(\d+)\+([a-z0-9._-]+)\x40users\.noreply\.github\.com$", a)
     if m and m.group(1) in OUR_GH_NUMERIC_IDS:
         return "наш служебный адрес GitHub (числовой id %s -- наш)" % m.group(1)
-    m2 = re.match(r"^([a-z0-9._-]+)[аккаунт]\.noreply\.github\.com$", a)
+    m2 = re.match(r"^([a-z0-9._-]+)\x40users\.noreply\.github\.com$", a)
     if m2 and m2.group(1) in OUR_GH_LOGINS:
         return "наш служебный адрес GitHub (логин %s -- наш)" % m2.group(1)
     return ""

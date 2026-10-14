@@ -210,17 +210,8 @@ TRANSCRIPT_ROOT = os.path.expanduser("~/.claude/projects")
 # путь), а где не уверены - пишем "unknown", а не догадку: прибор, который не смог
 # измерить, обязан отвечать «не знаю», а не «хаб».
 def _origin_from_project(dirname: str) -> str:
-    n = (dirname or "").lower()
-    if "claude-hp17" in n or n.startswith("c--users----"):
-        return "origin:hp17"
-    if "claude-[машина флота]" in n or "[машина флота]" in n:
-        return "origin:[машина флота]"
-    if "claude-mac-2019" in n or "mac-2019" in n:
-        return "origin:mac-2019"
-    if n.startswith("-users-anton"):
-        return "origin:mac"
-    if "paloaltopc" in n or n.startswith("c--users-anton"):
-        return "origin:hub"
+    # Имена каталогов проектов зависят от ТВОИХ машин: допиши свои ветки под свой реестр.
+    # Пока не уверены, отвечаем "unknown", а не догадкой.
     return "origin:unknown"
 
 
@@ -406,12 +397,7 @@ def read_all(days: int | None = None, kind: str = "skill") -> list[dict]:
     return _drop_hook_twins(rows)
 
 
-_ORIGIN_TO_NODE = {
-    "origin:hub": "[машина флота]",
-    "origin:hp17": "[машина флота]",
-    "origin:[машина флота]": "[машина флота]",
-    "origin:mac": "[машина флота]",
-}
+_ORIGIN_TO_NODE = {}  # origin:<код> -> имя узла из твоего реестра
 
 
 def norm_node(name: str) -> str:

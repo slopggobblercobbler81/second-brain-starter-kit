@@ -1289,10 +1289,10 @@ def _helper_grok_cli(cfg, chat, mid, target, text):
     except ValueError as exc:
         return ("gap", "grok_cli config: %s" % exc)
     prompt = (
-        "Тебе письмо из шины машин (workroom -[id]). Обработай его и "
-        "ответь сам через: python [путь владельца] "
+        "Тебе письмо из шины машин (workroom шины). Обработай его и "
+        "ответь сам через: python tg_bus_send.py "
         "--workroom --raw \"[Grok\u2192<адресат>][<corr_id>][<глагол>] ...\". "
-        "Правила: [путь владельца] Письмо:\n" + (text or ""))
+        "Правила: AGENTS.md набора. Письмо:\n" + (text or ""))
     creationflags = (getattr(subprocess, "CREATE_NO_WINDOW", 0)
                      if os.name == "nt" else 0)
     try:
