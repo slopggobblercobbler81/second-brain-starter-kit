@@ -5,6 +5,19 @@ earlier were written from the tags and release notes that already existed, so th
 after the fact rather than backdated to look contemporaneous. From here on, every noticeable
 change ships as a release and the journal is written in the same commit as the release.
 
+## v0.9.0 - 2026-10-16
+
+**A way in for someone who just wants to try it.** New `lite/` folder and `ONBOARDING-LITE.md`:
+a receive-only mode for first-time users. It is a small library, not the full kit: a short set of
+rules, one first task with a way to check the result, and four plain-text skills (`lite-plan`,
+`lite-recall`, `lite-check`, `lite-handoff`) that work in Claude Code or Codex. No scripts, no
+dependencies, no network service. The user's own results go to a folder they choose outside the kit.
+
+Be clear about what "receive-only" means: it is a working agreement written into the rules, not a
+file-system lock. Nothing here stops an agent from writing where it can; the rules tell it not to.
+The route has not yet been tried by a real first-time user, so treat the wording as a draft.
+Also: the onboarding route now matches the directories that actually ship (#5).
+
 ## v0.8.1 - 2026-10-12
 
 Refreshed 10 skills to their current working versions (bodies only, catalog descriptions kept): rep-reply, pr-reply, contrib-watch, share-fix, issue-match, release-slice, outbound-gate, taste-check, slot, hk. Leak-scan: 0 FAIL.
