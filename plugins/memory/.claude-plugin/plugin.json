@@ -19,7 +19,11 @@
   "mcpServers": {
     "sgm-mcp": {
       "command": "uvx",
-      "args": ["--with", "sqlite-graph-memory[embeddings]", "sqlite-graph-memory"],
+      "args": [
+        "--with",
+        "sqlite-graph-memory[embeddings]>=0.3.1,<0.4",
+        "sqlite-graph-memory"
+      ],
       "env": {
         "BRAIN_INDEX_DIR": "${user_config.index_dir}",
         "TURNSTATE_DB": "${CLAUDE_PLUGIN_DATA}/turnstate.db"

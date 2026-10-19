@@ -17,6 +17,15 @@ uses it daily and pastes real output after changes. Claude Code is ours; the oth
 New [`CONTRIBUTING.md`](CONTRIBUTING.md) with the credit rules above and the "commands and output,
 not conclusions" testing block, plus two issue forms: claim a platform, and report a run on one.
 
+**Memory you can switch on, and a page for robots.** New opt-in plugin `second-brain-memory` in the
+same marketplace: it registers the [sqlite-graph-memory](https://github.com/tonydzi/sqlite-graph-memory)
+MCP server (`sgm-mcp`, pinned to `>=0.3.1,<0.4`) and asks for one setting, your index folder. It is a
+separate plugin because a plugin's stdio server starts in every session and the embeddings stack is
+about 2 GB. Checked on a two-note index: `memory_recall` returned the note with a unique token, and the
+same call on an empty index came back as an error. New [`llms.txt`](llms.txt) (one page for LLM readers)
+and [`RED-PROOF.md`](RED-PROOF.md) (a drop-in rule: a check counts only after you saw it fail). The
+README now says 232 skills, the real count, instead of 100.
+
 ## v0.9.0 - 2026-10-16
 
 **A way in for someone who just wants to try it.** New `lite/` folder and `ONBOARDING-LITE.md`:
