@@ -24,6 +24,10 @@ class Frontmatter(unittest.TestCase):
         fm = cr.frontmatter("---\nname: x\ndescription: >\n  first\n\n  second\n---\n")
         self.assertEqual(fm["description"], "first\nsecond")
 
+    def test_comment_null_and_escape(self):
+        fm = cr.frontmatter('---\nname: x # note\ndescription: null\nother: "one\\n two"\n---\n')
+        self.assertEqual((fm["name"], fm["description"], fm["other"]), ("x", "", "one\n two"))
+
     def test_quoted_name(self):
         self.assertEqual(cr.frontmatter('---\nname: "03"\ndescription: d\n---\n')["name"], "03")
 
@@ -61,8 +65,16 @@ class SkillChecks(unittest.TestCase):
         r = self.skill("up", "---\nname: up\ndescription: d\n---\n[x](HTTP://example.com)")
         self.assertEqual(r["bad_paths"], [])
 
+    def test_link_with_title_is_checked(self):
+        r = self.skill("ti", '---\nname: ti\ndescription: d\n---\n[dead](not-shipped.md "title")')
+        self.assertEqual(r["bad_paths"], ["not-shipped.md"])
+
+    def test_path_case_must_match(self):
+        r = self.skill("ca", "---\nname: ca\ndescription: d\n---\n[x](skill.md)")
+        self.assertEqual(r["bad_paths"], ["skill.md"])
+
     def test_links_inside_code_are_examples(self):
-        r = self.skill("ex", "---\nname: ex\ndescription: d\n---\n`[t](url)`\n```\n[a](b.md)\n```\n")
+        r = self.skill("ex", "---\nname: ex\ndescription: d\n---\n`[t](url)`\n```\n[a](b.md) `docs/not-shipped.md`\n```\n")
         self.assertEqual(r["bad_paths"], [])
 
     def test_one_os_without_branch(self):

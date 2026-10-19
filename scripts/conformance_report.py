@@ -21,6 +21,7 @@ from __future__ import annotations
 import argparse
 import difflib
 import json
+import os
 import re
 import sys
 from collections import defaultdict
@@ -58,7 +59,7 @@ OS_MARKERS = {
 }
 PORTABILITY = re.compile(r"Portability|Портируемость|on Windows|on macOS|on Linux|на Windows|на macOS|на Linux", re.I)
 
-LINK = re.compile(r"\]\(([^)\s]+)\)")
+LINK = re.compile(r"\]\(\s*([^)\s]+)[^)]*\)")  # [t](path) and [t](path "title")
 CODE_PATH = re.compile(r"`((?:\./|references/|reference/|scripts/|examples/|skills/|engines/|docs/|templates/|crm-template/|bible/|law/|tools/|lite/)[A-Za-z0-9_./-]+\.(?:md|py|json|sh|ps1|txt|ya?ml|csv))`")
 
 
@@ -97,15 +98,37 @@ def frontmatter(text: str) -> dict[str, str] | None:
             out[key] = re.sub(r" ?\n ?", "\n", " ".join(c if c else "\n" for c in cont))
         elif val in ("|", "|-", "|+"):
             out[key] = "\n".join(cont)
+        elif len(val) >= 2 and val[0] == '"' and val[-1] == '"':
+            try:  # double quotes: YAML escapes such as \n are real
+                out[key] = json.loads(val)
+            except ValueError:
+                out[key] = val[1:-1]
+        elif len(val) >= 2 and val[0] == "'" and val[-1] == "'":
+            out[key] = val[1:-1].replace("''", "'")
         else:
-            if len(val) >= 2 and val[0] == val[-1] and val[0] in "\"'":
-                val = val[1:-1]
+            val = re.split(r"\s#", val, maxsplit=1)[0].strip()  # plain scalar: " #" starts a comment
+            val = "" if val in ("null", "Null", "NULL", "~") else val
             out[key] = " ".join([val] + [c for c in cont if c]).strip()
         i = j
     return out
 
 
 # ------------------------------------------------------------------ per-skill checks
+def exists_exact(base: Path, rel: str) -> bool:
+    """Path exists inside the repo with exactly this case. macOS disks ignore case, the Linux
+    CI does not, so a plain exists() would make a board built on a Mac go red in CI."""
+    anchor = str(ROOT) if not os.path.relpath(base, ROOT).startswith("..") else str(base)
+    inside = os.path.relpath(os.path.normpath(os.path.join(base, rel)), anchor)
+    if inside.startswith(".."):
+        return False
+    cur = anchor
+    for part in Path(inside).parts:
+        if part == "." or part not in os.listdir(cur):
+            return False
+        cur = os.path.join(cur, part)
+    return True
+
+
 def skill_dirs() -> list[Path]:
     return sorted(p for p in SKILLS.iterdir() if p.is_dir() and not p.name.startswith("."))
 
@@ -130,14 +153,15 @@ def check_skill(d: Path) -> dict:
     r["name_strict"] = bool(STRICT_NAME.match(name)) and len(name) <= 64
 
     # links written as examples (inside code) are not links; scheme:, ~, $ and / are not repo paths
-    prose = re.sub(r"`[^`\n]*`", "", re.sub(r"(?ms)^(```|~~~).*?^\1", "", text))
+    nofence = re.sub(r"(?ms)^(```|~~~).*?^\1", "", text)
+    prose = re.sub(r"`[^`\n]*`", "", nofence)
     targets = [t for t in LINK.findall(prose)
-               if not re.match(r"^([a-z][\w+.-]*:|#|<|\{|~|\$|/)", t, re.I)] + CODE_PATH.findall(text)
+               if not re.match(r"^([a-z][\w+.-]*:|#|<|\{|~|\$|/)", t, re.I)] + CODE_PATH.findall(nofence)
     for t in sorted(set(targets)):
         t = t.split("#", 1)[0]
         if not t or "<" in t or "*" in t:
             continue
-        if not ((d / t).exists() or (ROOT / t).exists()):
+        if not (exists_exact(d, t) or exists_exact(ROOT, t)):
             r["bad_paths"].append(t)
     r["paths"] = not r["bad_paths"]
 

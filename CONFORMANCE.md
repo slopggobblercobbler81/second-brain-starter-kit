@@ -61,7 +61,7 @@ Skills on the shelf: **232**. Cannot judge **5 of 49** cells (every unknown is a
 
 ### What fails
 
-- description not one line or over 400 chars: ask-debt (413 chars), brain-onboard (404 chars), claude-repair (412 chars), display-mode (493 chars), fa (464 chars), peer-onboard (410 chars), retro (467 chars), secondop (460 chars), session-groups (720 chars), sostav-dm (464 chars), sostav-reply (409 chars), spawn-bridge (402 chars), tt (467 chars)
+- description not one line or over 400 chars: ask-debt (413 chars), brain-onboard (404 chars), claude-repair (412 chars), display-mode (493 chars), fa (464 chars), peer-onboard (410 chars), retro (467 chars), secondop (460 chars), session-groups (708 chars), sostav-dm (464 chars), sostav-reply (409 chars), spawn-bridge (402 chars), tt (467 chars)
 - `borrowed-audience` paths that do not resolve: `docs/leash-8.md`
 - `dig-through-data-brokers` paths that do not resolve: `../../ETHICS.md`
 - `find-anyone` paths that do not resolve: `../../ETHICS.md`
