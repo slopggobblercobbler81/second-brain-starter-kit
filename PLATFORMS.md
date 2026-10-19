@@ -48,7 +48,7 @@ again, with your handle kept in the home file as a past owner.
 
 Either of these, whichever is easier:
 
-1. **Comment on the pinned issue "Own a platform"** with the platform name and one line on how you
+1. **Comment on the pinned issue [#10 "Own a platform"](https://github.com/tonydzi/second-brain-starter-kit/issues/10)** with the platform name and one line on how you
    use it. A maintainer updates the table.
 2. **Open a PR that edits this table**: put your handle in the Owner column, and add a line to the
    platform's home file (see below). If the home file does not exist yet, create it; even five lines
