@@ -1,11 +1,11 @@
-# Second Brain Starter Kit
+# Second Brain Starter Kit: persistent memory for Claude Code and Codex
 
 *Read this in other languages: [Русский](README.ru.md)*
 
-A starter kit for running **Claude Code as a second brain + working assistant**, from
-[Palo Alto AI Research Lab](https://github.com/tonydzi).
-This is the system we run ourselves every day — stripped of personal data and cut down to a
-portable core: **the method, not the data**.
+A second brain and persistent memory for **Claude Code and Codex**: 232 skills shipped as a
+plugin marketplace, a memory server you can attach with one manifest, a working CRM engine and
+vault templates. It is the system [Palo Alto AI Research Lab](https://github.com/tonydzi) runs
+every day, stripped of personal data and cut down to a portable core: **the method, not the data**.
 
 **New to this? Start with [the light onboarding guide](ONBOARDING-LITE.md).**
 Download a folder, open it in Claude Code or Codex, and try one useful task. No terminal,
@@ -21,7 +21,7 @@ A single skill is a trick. What makes an agent useful over months is the set of 
 a gate that refuses to say "done" without evidence, a retrospective that files what you learned
 where the next session will actually find it, a registry of decisions you already rejected so
 nobody re-pitches them, a handoff that survives a crash. Those only work together, which is why
-they ship as one kit rather than as 100 separate downloads.
+they ship as one kit rather than as 232 separate downloads.
 
 Install it whole and you get a working second brain on day one:
 
@@ -35,6 +35,17 @@ or, inside Claude Code:
 /plugin marketplace add tonydzi/second-brain-starter-kit
 /plugin install second-brain-skills@second-brain
 ```
+
+Want the agent to remember across sessions? Memory is a separate, opt-in plugin in the same
+marketplace, because its embeddings stack downloads about 2 GB on first start:
+
+```
+/plugin install second-brain-memory@second-brain
+```
+
+It registers the [sqlite-graph-memory](https://github.com/tonydzi/sqlite-graph-memory) MCP
+server (`sgm-mcp`) and asks for one setting, the index folder (`BRAIN_INDEX_DIR`) you built with
+`uvx --from 'sqlite-graph-memory[embeddings]' sgm-index <your notes folder>`.
 
 It is MIT, it costs nothing, and nothing here phones home. Take what you need, delete the rest,
 and open an issue if a skill breaks on your machine. Paths are documented in
@@ -82,6 +93,8 @@ Every one of them ran in production before it was published. One command each.
 | [`/intake`](skills/intake/SKILL.md) | one pass routes a new rule into every home it needs, so parallel sessions see it on their own |
 | [`/mcp`](skills/mcp/SKILL.md) | health-check your MCP servers and scout new ones before any integration work |
 
+If one of these saved you an hour, a star is the thanks we would ask for: it is how the next person searching for agent memory finds the kit.
+
 **Standalone tools** (separate repos, same lab):
 
 | tool | what it does |
@@ -94,7 +107,7 @@ Every one of them ran in production before it was published. One command each.
 | [llm-spend-audit](https://github.com/tonydzi/llm-spend-audit) | where your LLM subscription budget actually goes |
 | [agent-runtime-integrity-bench](https://github.com/tonydzi/agent-runtime-integrity-bench) | replay, idempotency and consensus-integrity scenarios from real incidents |
 
-Full map of all 100 → [skills/INDEX.md](skills/INDEX.md)
+Full map of all 232 → [skills/INDEX.md](skills/INDEX.md)
 
 ## What's inside
 
@@ -103,10 +116,11 @@ Full map of all 100 → [skills/INDEX.md](skills/INDEX.md)
 | `SEED.en.md` / `SEED.md` | The opening message for your FIRST Claude Code session (English / Russian) — everything starts here |
 | `BOOTSTRAP-CLAUDE.md` | Instructions for Claude itself: how to install and adapt the kit |
 | `CLAUDE-EXTERNAL.md` | Our working principles (assistant behavior) — the base for your own CLAUDE.md |
-| `skills/` | **All 100 skill commands** the system runs on every day — map: [`skills/INDEX.md`](skills/INDEX.md). Personal data in examples is replaced with fictional stand-ins ([how exactly](docs/WHAT-IS-SHARED.md)) |
+| `skills/` | **All 232 skill commands** the system runs on every day, map: [`skills/INDEX.md`](skills/INDEX.md). Personal data in examples is replaced with fictional stand-ins ([how exactly](docs/WHAT-IS-SHARED.md)) |
 | `templates/` | Second-brain note templates (concepts, decisions, weekly/monthly reviews) |
 | `crm-template/` | CRM: markdown "one card = one file" + an [engine](crm-template/ENGINE.md) with warmth scoring and safe outbound, with demo data |
 | `docs/` | How to use CLAUDE.md, onboarding, what is shared |
+| [`RED-PROOF.md`](RED-PROOF.md) / [`llms.txt`](llms.txt) | A drop-in rule for any CLAUDE.md or AGENTS.md: a check counts only after you saw it fail / a one-page summary of this repo for LLM readers |
 | [`HANDOVER.md`](HANDOVER.md) | **Already running your own agent fleet?** A snapshot of the whole system and a map of our repos — the entry point for you and your model |
 
 📖 **Repository wiki:** [what is actually in here](https://github.com/tonydzi/second-brain-starter-kit/wiki) · [architecture (4 layers)](https://github.com/tonydzi/second-brain-starter-kit/wiki/Architecture) · [your first week](https://github.com/tonydzi/second-brain-starter-kit/wiki/First-week) · [adapting it to your machine](https://github.com/tonydzi/second-brain-starter-kit/wiki/Adapting-it-to-your-machine)
@@ -152,8 +166,8 @@ Using Gemini CLI instead of Claude? → [docs/INSTALL-GEMINI.md](docs/INSTALL-GE
 
 ## Roadmap
 
-**Now — [v0.1.0](https://github.com/tonydzi/second-brain-starter-kit/releases/tag/v0.1.0).**
-100 skills, 246 engines those skills actually call, note templates, a CRM engine with warmth
+**Now: [v0.9.0](https://github.com/tonydzi/second-brain-starter-kit/releases/tag/v0.9.0).**
+232 skills, 247 engine scripts under `engines/`, note templates, a CRM engine with warmth
 scoring and safe outbound, `SEED.md` + `BOOTSTRAP-CLAUDE.md` for the first session, and
 `HANDOVER.md` for people who already run their own agent fleet.
 
@@ -242,7 +256,7 @@ Built and battle-tested at **Palo Alto AI Research Lab** — a fleet of Claude C
 running 24/7 as a second brain and synthetic cofounder. Every skill here survived real
 production use before publication.
 
-- 📦 All 100 skills: https://github.com/tonydzi/second-brain-starter-kit
+- 📦 All 232 skills: https://github.com/tonydzi/second-brain-starter-kit
 - 👤 Author: **Anton Dziatkovskii** — Telegram [@tonydzi](https://t.me/tonydzi) · WhatsApp [+1 341 222 9178](https://wa.me/[id]) · X [[аккаунт]](https://x.com/Tony_Stef_)
 - 🧪 **Engineers: want to test-drive this setup?** Message me — I hand out free starter seeds to engineers who test and report back. Custom skill requests welcome.
 
@@ -252,13 +266,13 @@ production use before publication.
 
 One click and an agent reads the repo, pulls out the patterns and helps you apply them to your own work.
 
-<a href="https://chatgpt.com/codex?prompt=Read%20this%20repo%3A%20https%3A%2F%2Fgithub.com%2Ftonydzi%2Fsecond-brain-starter-kit%20%28%E2%80%9Csecond-brain-starter-kit%E2%80%9D%20-%20Claude%20Code%20as%20a%20second%20brain%3A%20100%20battle-tested%20skills%2C%20a%20working%20CRM%20engine%2C%20vault%20templates%20and%20the%20handover%20map.%20Method%2C%20not%20data.%20MIT%29.%20Work%20out%20what%20problem%20it%20actually%20solves%2C%20pull%20out%20the%20reusable%20patterns%20and%20help%20me%20apply%20them%20to%20my%20own%20setup.%20Start%20by%20asking%20what%20I%20am%20working%20on."><img alt="Codex - open" src="https://img.shields.io/badge/Codex-open-000000?style=for-the-badge&logo=openai&logoColor=white"></a> <a href="https://chatgpt.com/?q=Read%20this%20repo%3A%20https%3A%2F%2Fgithub.com%2Ftonydzi%2Fsecond-brain-starter-kit%20%28%E2%80%9Csecond-brain-starter-kit%E2%80%9D%20-%20Claude%20Code%20as%20a%20second%20brain%3A%20100%20battle-tested%20skills%2C%20a%20working%20CRM%20engine%2C%20vault%20templates%20and%20the%20handover%20map.%20Method%2C%20not%20data.%20MIT%29.%20Work%20out%20what%20problem%20it%20actually%20solves%2C%20pull%20out%20the%20reusable%20patterns%20and%20help%20me%20apply%20them%20to%20my%20own%20setup.%20Start%20by%20asking%20what%20I%20am%20working%20on."><img alt="ChatGPT - open" src="https://img.shields.io/badge/ChatGPT-open-10a37f?style=for-the-badge&logo=openai&logoColor=white"></a> <a href="https://claude.ai/new?q=Read%20this%20repo%3A%20https%3A%2F%2Fgithub.com%2Ftonydzi%2Fsecond-brain-starter-kit%20%28%E2%80%9Csecond-brain-starter-kit%E2%80%9D%20-%20Claude%20Code%20as%20a%20second%20brain%3A%20100%20battle-tested%20skills%2C%20a%20working%20CRM%20engine%2C%20vault%20templates%20and%20the%20handover%20map.%20Method%2C%20not%20data.%20MIT%29.%20Work%20out%20what%20problem%20it%20actually%20solves%2C%20pull%20out%20the%20reusable%20patterns%20and%20help%20me%20apply%20them%20to%20my%20own%20setup.%20Start%20by%20asking%20what%20I%20am%20working%20on."><img alt="Claude - open" src="https://img.shields.io/badge/Claude-open-d97757?style=for-the-badge&logo=anthropic&logoColor=white"></a>
+<a href="https://chatgpt.com/codex?prompt=Read%20this%20repo%3A%20https%3A%2F%2Fgithub.com%2Ftonydzi%2Fsecond-brain-starter-kit%20%28%E2%80%9Csecond-brain-starter-kit%E2%80%9D%20-%20Claude%20Code%20as%20a%20second%20brain%3A%20232%20battle-tested%20skills%2C%20a%20working%20CRM%20engine%2C%20vault%20templates%20and%20the%20handover%20map.%20Method%2C%20not%20data.%20MIT%29.%20Work%20out%20what%20problem%20it%20actually%20solves%2C%20pull%20out%20the%20reusable%20patterns%20and%20help%20me%20apply%20them%20to%20my%20own%20setup.%20Start%20by%20asking%20what%20I%20am%20working%20on."><img alt="Codex - open" src="https://img.shields.io/badge/Codex-open-000000?style=for-the-badge&logo=openai&logoColor=white"></a> <a href="https://chatgpt.com/?q=Read%20this%20repo%3A%20https%3A%2F%2Fgithub.com%2Ftonydzi%2Fsecond-brain-starter-kit%20%28%E2%80%9Csecond-brain-starter-kit%E2%80%9D%20-%20Claude%20Code%20as%20a%20second%20brain%3A%20232%20battle-tested%20skills%2C%20a%20working%20CRM%20engine%2C%20vault%20templates%20and%20the%20handover%20map.%20Method%2C%20not%20data.%20MIT%29.%20Work%20out%20what%20problem%20it%20actually%20solves%2C%20pull%20out%20the%20reusable%20patterns%20and%20help%20me%20apply%20them%20to%20my%20own%20setup.%20Start%20by%20asking%20what%20I%20am%20working%20on."><img alt="ChatGPT - open" src="https://img.shields.io/badge/ChatGPT-open-10a37f?style=for-the-badge&logo=openai&logoColor=white"></a> <a href="https://claude.ai/new?q=Read%20this%20repo%3A%20https%3A%2F%2Fgithub.com%2Ftonydzi%2Fsecond-brain-starter-kit%20%28%E2%80%9Csecond-brain-starter-kit%E2%80%9D%20-%20Claude%20Code%20as%20a%20second%20brain%3A%20232%20battle-tested%20skills%2C%20a%20working%20CRM%20engine%2C%20vault%20templates%20and%20the%20handover%20map.%20Method%2C%20not%20data.%20MIT%29.%20Work%20out%20what%20problem%20it%20actually%20solves%2C%20pull%20out%20the%20reusable%20patterns%20and%20help%20me%20apply%20them%20to%20my%20own%20setup.%20Start%20by%20asking%20what%20I%20am%20working%20on."><img alt="Claude - open" src="https://img.shields.io/badge/Claude-open-d97757?style=for-the-badge&logo=anthropic&logoColor=white"></a>
 
 <details>
 <summary>Copy the prompt (works in any agent: Gemini, Grok, a local model, your own CLI)</summary>
 
 ```text
-Read this repo: https://github.com/tonydzi/second-brain-starter-kit (“second-brain-starter-kit” - Claude Code as a second brain: 100 battle-tested skills, a working CRM engine, vault templates and the handover map. Method, not data. MIT). Work out what problem it actually solves, pull out the reusable patterns and help me apply them to my own setup. Start by asking what I am working on.
+Read this repo: https://github.com/tonydzi/second-brain-starter-kit (“second-brain-starter-kit” - Claude Code as a second brain: 232 battle-tested skills, a working CRM engine, vault templates and the handover map. Method, not data. MIT). Work out what problem it actually solves, pull out the reusable patterns and help me apply them to my own setup. Start by asking what I am working on.
 ```
 
 </details>

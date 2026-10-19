@@ -5,6 +5,18 @@ earlier were written from the tags and release notes that already existed, so th
 after the fact rather than backdated to look contemporaneous. From here on, every noticeable
 change ships as a release and the journal is written in the same commit as the release.
 
+**Credit.** From 2026-10-19 every merged pull request from outside the maintainers is named here by
+GitHub handle, in the entry of the release that ships it. An idea taken from a closed PR is credited
+the same way and carries a `Co-authored-by` trailer for its author. Rules: [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Unreleased
+
+**A way to join that does not need our permission.** New [`PLATFORMS.md`](PLATFORMS.md): one row per
+agent or system the shelf should run on (8 agents, Windows, macOS on Intel), each with an owner who
+uses it daily and pastes real output after changes. Claude Code is ours; the other 9 rows are open.
+New [`CONTRIBUTING.md`](CONTRIBUTING.md) with the credit rules above and the "commands and output,
+not conclusions" testing block, plus two issue forms: claim a platform, and report a run on one.
+
 ## v0.9.0 - 2026-10-16
 
 **A way in for someone who just wants to try it.** New `lite/` folder and `ONBOARDING-LITE.md`:

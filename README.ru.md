@@ -1,11 +1,12 @@
-# Second Brain Starter Kit
+# Second Brain Starter Kit: постоянная память для Claude Code и Codex
 
 *Читать на других языках: [English](README.md)*
 
-Стартовый набор «Claude Code как второй мозг + рабочий ассистент» от
-[PaloAlto AI Research Lab](https://github.com/tonydzi).
-Это рабочая система, которой мы пользуемся сами каждый день, — очищенная от
-личных данных и урезанная до переносимого ядра: **метод, не данные**.
+Второй мозг и постоянная память для **Claude Code и Codex**: 232 скилла в виде маркетплейса
+плагинов, сервер памяти, который подключается одной строкой манифеста, рабочий CRM-движок и
+шаблоны волта. Это система, которой [Palo Alto AI Research Lab](https://github.com/tonydzi)
+пользуется каждый день, очищенная от личных данных и урезанная до переносимого ядра:
+**метод, не данные**.
 
 **Первый раз? Начните с [лёгкого онбординга](ONBOARDING-LITE.md).**
 Скачайте папку, откройте её в Claude Code или Codex и решите одну полезную задачу.
@@ -35,6 +36,17 @@ npx skills add tonydzi/second-brain-starter-kit
 /plugin marketplace add tonydzi/second-brain-starter-kit
 /plugin install second-brain-skills@second-brain
 ```
+
+Нужно, чтобы агент помнил между сессиями? Память идёт отдельным плагином в том же
+маркетплейсе и ставится по желанию: её стек эмбеддингов при первом старте качает около 2 ГБ.
+
+```
+/plugin install second-brain-memory@second-brain
+```
+
+Плагин регистрирует MCP-сервер [sqlite-graph-memory](https://github.com/tonydzi/sqlite-graph-memory)
+(`sgm-mcp`) и спрашивает одну настройку: папку индекса (`BRAIN_INDEX_DIR`), собранную командой
+`uvx --from 'sqlite-graph-memory[embeddings]' sgm-index <папка с заметками>`.
 
 MIT, бесплатно, никуда не звонит. Берите нужное, лишнее удаляйте, а если скилл сломался на вашей
 машине — заводите issue. Пути описаны в [docs/PATHS.md](docs/PATHS.md).
@@ -81,6 +93,8 @@ Every one of them ran in production before it was published. One command each.
 | [`/intake`](skills/intake/SKILL.md) | one pass routes a new rule into every home it needs, so parallel sessions see it on their own |
 | [`/mcp`](skills/mcp/SKILL.md) | health-check your MCP servers and scout new ones before any integration work |
 
+Если хоть один из них сэкономил тебе час, поставь репо звезду: так его находит следующий, кто ищет память для агента.
+
 **Standalone tools** (separate repos, same lab):
 
 | tool | what it does |
@@ -93,7 +107,7 @@ Every one of them ran in production before it was published. One command each.
 | [llm-spend-audit](https://github.com/tonydzi/llm-spend-audit) | where your LLM subscription budget actually goes |
 | [agent-runtime-integrity-bench](https://github.com/tonydzi/agent-runtime-integrity-bench) | replay, idempotency and consensus-integrity scenarios from real incidents |
 
-Full map of all 100 → [skills/INDEX.md](skills/INDEX.md)
+Full map of all 232 → [skills/INDEX.md](skills/INDEX.md)
 
 ## Что внутри
 
@@ -102,10 +116,11 @@ Full map of all 100 → [skills/INDEX.md](skills/INDEX.md)
 | `SEED.md` / `SEED.en.md` | Стартовое сообщение для ПЕРВОЙ сессии Claude Code (рус / англ) — с него всё начинается |
 | `BOOTSTRAP-CLAUDE.md` | Инструкция для самого Claude: как установить и адаптировать набор |
 | `CLAUDE-EXTERNAL.md` | Наши рабочие принципы (стиль работы ассистента) — основа для твоего CLAUDE.md |
-| `skills/` | **Все 100 скилл-команд**, которыми система работает каждый день — карта: [`skills/INDEX.md`](skills/INDEX.md). Личные данные в примерах заменены на вымышленные ([как именно](docs/WHAT-IS-SHARED.md)) |
+| `skills/` | **Все 232 скилл-команды**, которыми система работает каждый день, карта: [`skills/INDEX.md`](skills/INDEX.md). Личные данные в примерах заменены на вымышленные ([как именно](docs/WHAT-IS-SHARED.md)) |
 | `templates/` | Шаблоны заметок второго мозга (концепты, решения, ревью недели/месяца) |
 | `crm-template/` | CRM: markdown «карточка = файл» + [движок](crm-template/ENGINE.md) со скорингом теплоты и безопасным исходящим, с демо-данными |
 | `docs/` | Как пользоваться CLAUDE.md, онбординг, что шарится |
+| [`RED-PROOF.md`](RED-PROOF.md) / [`llms.txt`](llms.txt) | Правило-вставка для любого CLAUDE.md или AGENTS.md: проверка считается, только когда ты видел её красной / одна страница о репо для LLM-читателей |
 | [`HANDOVER.md`](HANDOVER.md) | **Уже есть свой флот агентов?** Слепок всей системы и карта наших репозиториев — точка входа для тебя и твоей модели |
 
 
@@ -152,8 +167,8 @@ npx skills add tonydzi/second-brain-starter-kit
 
 ## Дорожная карта
 
-**Сейчас — [v0.1.0](https://github.com/tonydzi/second-brain-starter-kit/releases/tag/v0.1.0).**
-100 скиллов, 246 движков, которые эти скиллы реально зовут, шаблоны заметок, CRM-движок
+**Сейчас: [v0.9.0](https://github.com/tonydzi/second-brain-starter-kit/releases/tag/v0.9.0).**
+232 скилла, 247 скриптов движков в `engines/`, шаблоны заметок, CRM-движок
 со скорингом теплоты и безопасным исходящим, `SEED.md` + `BOOTSTRAP-CLAUDE.md` для первой
 сессии и `HANDOVER.md` для тех, у кого уже есть свой флот агентов.
 
@@ -220,6 +235,6 @@ Built and battle-tested at **Palo Alto AI Research Lab** — a fleet of Claude C
 running 24/7 as a second brain and synthetic cofounder. Every skill here survived real
 production use before publication.
 
-- 📦 All 100 skills: https://github.com/tonydzi/second-brain-starter-kit
+- 📦 All 232 skills: https://github.com/tonydzi/second-brain-starter-kit
 - 👤 Author: **Anton Dziatkovskii** — Telegram [@tonydzi](https://t.me/tonydzi) · WhatsApp [+1 341 222 9178](https://wa.me/[id]) · X [[аккаунт]](https://x.com/Tony_Stef_)
 - 🧪 **Engineers: want to test-drive this setup?** Message me — I hand out free starter seeds to engineers who test and report back. Custom skill requests welcome.

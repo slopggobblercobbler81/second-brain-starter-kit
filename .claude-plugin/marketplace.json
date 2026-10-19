@@ -14,6 +14,15 @@
       "author": {
         "name": "Anton Dziatkovskii / Palo Alto AI Research Lab"
       }
+    },
+    {
+      "name": "second-brain-memory",
+      "source": "./plugins/memory",
+      "description": "Opt-in persistent memory: registers the sqlite-graph-memory MCP server (sgm-mcp) over your own notes. Install it only if you want recall across sessions; first start downloads the embeddings stack (about 2 GB).",
+      "version": "0.1.0",
+      "author": {
+        "name": "Anton Dziatkovskii / Palo Alto AI Research Lab"
+      }
     }
   ]
 }
