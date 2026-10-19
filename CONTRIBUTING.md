@@ -21,7 +21,7 @@ You do not need to know Python for most of them.
 ### 2. Own a platform
 
 If you use one of the agents or systems in [`PLATFORMS.md`](PLATFORMS.md) every day and the row is
-open, claim it: a comment on the pinned "Own a platform" issue, or a PR that adds your handle to the
+open, claim it: a comment on the pinned [Own a platform](https://github.com/tonydzi/second-brain-starter-kit/issues/10) issue, or a PR that adds your handle to the
 table. The job is to run the shelf on your platform after changes and paste what happened. No
 deadlines, no on-call. Details and the limits of the role are in `PLATFORMS.md`.
 
