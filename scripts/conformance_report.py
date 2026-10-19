@@ -32,6 +32,7 @@ BOARD = ROOT / "CONFORMANCE.md"
 EXAM = ROOT / "scripts" / "conformance_exam.json"
 START, END = "<!-- conformance:start -->", "<!-- conformance:end -->"
 
+EXAM_PASS = 0.80  # share of judged probes routed to the right skill for the exam cell to pass
 DESC_MAX = 400  # the kit's own rule, stricter than any platform we know of
 STRICT_NAME = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")  # Agent Skills spec form, max 64
 
@@ -51,7 +52,7 @@ PLATFORMS = [
 # OS markers. A skill that names one OS family only is platform-dependent and needs a branch
 # for the others, or a "Portability" line saying where it works.
 OS_MARKERS = {
-    "windows": re.compile(r"powershell|\.ps1\b|%USERPROFILE%|%APPDATA%|\bwinget\b|schtasks|\bC:\\\\", re.I),
+    "windows": re.compile(r"powershell|\.ps1\b|%USERPROFILE%|%APPDATA%|\bwinget\b|schtasks|\b[A-Z]:\\[\w$%]", re.I),
     "macos": re.compile(r"osascript|launchctl|\blaunchd\b|\bbrew install\b|/Applications/|\bpbcopy\b", re.I),
     "linux": re.compile(r"systemctl|\bapt-get\b|\bapt install\b|journalctl", re.I),
 }
@@ -92,7 +93,8 @@ def frontmatter(text: str) -> dict[str, str] | None:
         while cont and not cont[-1]:
             cont.pop()
         if val in (">", ">-", ">+"):
-            out[key] = " ".join(c for c in cont if c)
+            # folded: lines join with a space, an empty line inside becomes a real newline
+            out[key] = re.sub(r" ?\n ?", "\n", " ".join(c if c else "\n" for c in cont))
         elif val in ("|", "|-", "|+"):
             out[key] = "\n".join(cont)
         else:
@@ -121,14 +123,16 @@ def check_skill(d: Path) -> dict:
     name, desc = (fm or {}).get("name", ""), (fm or {}).get("description", "")
     r["fm"] = bool(name and desc)
     r["desc"] = bool(desc) and "\n" not in desc and len(desc) <= DESC_MAX
-    r["desc_why"] = "multi-line" if "\n" in desc else f"{len(desc)} chars"
+    if desc:
+        r["desc_why"] = ", ".join(w for w, bad in (("multi-line", "\n" in desc),
+                                                   (f"{len(desc)} chars", len(desc) > DESC_MAX)) if bad)
     r["name_dir"] = name == d.name
     r["name_strict"] = bool(STRICT_NAME.match(name)) and len(name) <= 64
 
     # links written as examples (inside code) are not links; scheme:, ~, $ and / are not repo paths
     prose = re.sub(r"`[^`\n]*`", "", re.sub(r"(?ms)^(```|~~~).*?^\1", "", text))
     targets = [t for t in LINK.findall(prose)
-               if not re.match(r"^([a-z][\w+.-]*:|#|<|\{|~|\$|/)", t)] + CODE_PATH.findall(text)
+               if not re.match(r"^([a-z][\w+.-]*:|#|<|\{|~|\$|/)", t, re.I)] + CODE_PATH.findall(text)
     for t in sorted(set(targets)):
         t = t.split("#", 1)[0]
         if not t or "<" in t or "*" in t:
@@ -204,8 +208,14 @@ def import_exam(log_dir: Path, kit_skills: set[str]) -> dict:
     for rail, paths in sorted(by_rail.items()):
         # the newest run that examined any kit skill; a newer run over another shelf must not erase it
         for p in reversed(paths):
-            rows = [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
-            rows = [r for r in rows if r.get("skill") in kit_skills]
+            rows = []
+            for line in p.read_text(encoding="utf-8", errors="replace").splitlines():
+                try:
+                    row = json.loads(line)
+                except ValueError:
+                    continue  # a run killed mid-write leaves a torn last line
+                if isinstance(row, dict) and row.get("skill") in kit_skills:
+                    rows.append(row)
             if rows:
                 break
         judged = [r for r in rows if r.get("ok") is not None]
@@ -230,7 +240,8 @@ def exam_cell(rail: str | None, exam: dict) -> tuple[str, bool | None]:
     judged = e["probes"] - e["blind"]
     if judged == 0 or e["blind"] / e["probes"] > 0.10:
         return f"cannot judge: `{rail}` blind {e['blind']}/{e['probes']}", None
-    return f"{e['ok']}/{judged} routed right ({e['skills']} skills, run {e['run']})", True
+    ok = e["ok"] / judged >= EXAM_PASS
+    return f"{e['ok']}/{judged} routed right ({e['skills']} skills, run {e['run']})" + ("" if ok else " **below 80%**"), True
 
 
 # ------------------------------------------------------------------ board
@@ -268,6 +279,7 @@ def build() -> tuple[str, int, int]:
         fails += c != len(os_dep)
         text, known = exam_cell(pl["rail"], exam)
         cells.append(text)
+        fails += "below 80%" in text
         total += 7
         unknown += known is None
         verdict = "❌" if fails else ("⚠️" if known is None else "✅")

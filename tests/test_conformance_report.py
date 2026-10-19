@@ -20,6 +20,10 @@ class Frontmatter(unittest.TestCase):
         fm = cr.frontmatter("---\nname: x\ndescription: |\n  one\n  two\n---\n")
         self.assertIn("\n", fm["description"])
 
+    def test_folded_blank_line_is_a_newline(self):
+        fm = cr.frontmatter("---\nname: x\ndescription: >\n  first\n\n  second\n---\n")
+        self.assertEqual(fm["description"], "first\nsecond")
+
     def test_quoted_name(self):
         self.assertEqual(cr.frontmatter('---\nname: "03"\ndescription: d\n---\n')["name"], "03")
 
@@ -49,12 +53,22 @@ class SkillChecks(unittest.TestCase):
         self.assertFalse(r["name_strict"])
         self.assertEqual(r["bad_paths"], ["nope.md"])
 
+    def test_missing_description_reason(self):
+        r = self.skill("nofm", "# no frontmatter")
+        self.assertEqual(r["desc_why"], "missing")
+
+    def test_uppercase_scheme_is_not_a_path(self):
+        r = self.skill("up", "---\nname: up\ndescription: d\n---\n[x](HTTP://example.com)")
+        self.assertEqual(r["bad_paths"], [])
+
     def test_links_inside_code_are_examples(self):
         r = self.skill("ex", "---\nname: ex\ndescription: d\n---\n`[t](url)`\n```\n[a](b.md)\n```\n")
         self.assertEqual(r["bad_paths"], [])
 
     def test_one_os_without_branch(self):
         r = self.skill("win", "---\nname: win\ndescription: d\n---\nrun `%USERPROFILE%\\x`")
+        self.assertIs(r["os"], False)
+        r = self.skill("drive", "---\nname: drive\ndescription: d\n---\nopen C:\\Users\\me\\tool")
         self.assertIs(r["os"], False)
         r = self.skill("both", "---\nname: both\ndescription: d\n---\n%USERPROFILE% or launchctl")
         self.assertIs(r["os"], True)
@@ -68,6 +82,8 @@ class Exam(unittest.TestCase):
         self.assertIsNone(cr.exam_cell("codex", blind)[1])
         good = {"rails": {"codex": {"run": "r", "probes": 10, "ok": 8, "miss": 1, "blind": 1, "skills": 5}}}
         self.assertEqual(cr.exam_cell("codex", good), ("8/9 routed right (5 skills, run r)", True))
+        bad = {"rails": {"codex": {"run": "r", "probes": 10, "ok": 1, "miss": 9, "blind": 0, "skills": 5}}}
+        self.assertIn("below 80%", cr.exam_cell("codex", bad)[0])
 
     def test_import_keeps_counts_not_phrases(self):
         tmp = Path(tempfile.mkdtemp())
@@ -76,7 +92,8 @@ class Exam(unittest.TestCase):
                 {"skill": "a", "phrase": "p", "ok": None},
                 {"skill": "not-in-kit", "phrase": "p", "ok": False}]
         (tmp / "3-codex.jsonl").write_text(json.dumps({"skill": "other", "ok": True}), encoding="utf-8")
-        (tmp / "2-codex.jsonl").write_text("\n".join(json.dumps(r) for r in rows), encoding="utf-8")
+        (tmp / "2-codex.jsonl").write_text("\n".join(json.dumps(r) for r in rows) + '\n{"skill": "a", "ok": tr',
+                                           encoding="utf-8")
         snap = cr.import_exam(tmp, {"a"})
         self.assertEqual(snap["rails"]["codex"], {"run": "2", "probes": 2, "ok": 1, "miss": 0, "blind": 1, "skills": 1})
         self.assertNotIn("secret", json.dumps(snap))

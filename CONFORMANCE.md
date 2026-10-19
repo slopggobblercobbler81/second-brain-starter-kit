@@ -25,7 +25,7 @@ Every check except the exam runs from the repo alone, with no platform installed
 | Name = folder | `name` equals the folder name; for strict tools also `a-z0-9-`, at most 64 characters. | Strict tools silently skip a skill whose name breaks the Agent Skills form. |
 | Paths resolve | Relative links in prose and backticked repo paths (`docs/...`, `references/...`, `scripts/...`) exist, from the skill folder or the repo root. Examples inside code are ignored. | A skill that points at a file the kit does not ship fails on step one. |
 | OS branch | A skill that names one OS family only (`%USERPROFILE%`, `.ps1`, `launchctl`, `systemctl`...) also covers another family or carries a portability line. Count is over OS-specific skills only. | The same skill is read on Windows, macOS and Linux. |
-| Exam | Latest `skill_xvendor_run.py exam` against this shelf: given a request, did the platform's model pick the right skill. | The only column that needs a live model. |
+| Exam | Latest `skill_xvendor_run.py exam` against this shelf: given a request, did the platform's model pick the right skill. Below 80% of judged probes is a fail. | The only column that needs a live model. |
 
 **Cannot judge.** An exam cell is unknown when the platform has no exam rail, the last run did not
 cover kit skills, or more than 10% of its probes came back unreadable. Unknown is never counted
