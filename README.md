@@ -229,6 +229,11 @@ Full deal: [CONTRIBUTING.md](https://github.com/tonydzi/.github/blob/main/CONTRI
 
 <!--we-ask:end-->
 
+**Live on a platform we do not use daily** (Codex, Cursor, Gemini CLI, Windows and others)? Own it:
+[PLATFORMS.md](PLATFORMS.md) lists who owns what, and the pinned issue
+[#10 "Own a platform"](https://github.com/tonydzi/second-brain-starter-kit/issues/10) is where you
+claim one. How we review and credit contributions in this repo: [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ---
 
 <!--ecosystem-map:start-->

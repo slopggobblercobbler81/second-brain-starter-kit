@@ -214,6 +214,13 @@ Issues.
 
 <!--ecosystem-map:start-->
 
+## Помочь проекту
+
+Живёшь на платформе, которой мы не пользуемся каждый день (Codex, Cursor, Gemini CLI, Windows и
+другие)? Стань её владельцем: в [PLATFORMS.md](PLATFORMS.md) таблица, кто за что отвечает, а
+закреплённая issue [#10 «Own a platform»](https://github.com/tonydzi/second-brain-starter-kit/issues/10)
+место, где платформу берут. Как мы ревьюим и кого благодарим за вклад: [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## 🧩 One piece of a working system
 
 This repository is one piece lifted out of a live operation: one engineer running operations and a fleet of Claude Code agents and machines that reach consensus with each other and wake the human only
