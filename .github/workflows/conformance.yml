@@ -1,0 +1,21 @@
+name: conformance
+
+# The board in CONFORMANCE.md is generated from the repo. This job fails when someone changes
+# skills or manifests without regenerating it, so the board can never quietly drift.
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  board:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unit tests for the board script
+        run: python3 -m unittest discover -s tests -v
+      - name: Verify the board is current
+        run: python3 scripts/conformance_report.py --check
