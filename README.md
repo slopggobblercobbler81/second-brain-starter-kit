@@ -57,7 +57,7 @@ Setting up a brand-new computer, not just adding skills? There is a full runbook
 Claude Code session can execute end to end — the human says one sentence, the agent does the rest:
 
 - **macOS** → [ONBOARDING-MAC.md](ONBOARDING-MAC.md)
-- **Windows** → [ONBOARDING-WINDOWS.md](ONBOARDING-WINDOWS.md)
+- **Windows** → [ONBOARDING-WINDOWS.md](ONBOARDING-WINDOWS.md) (and [PowerShell & environment setup guide](docs/windows-setup.md))
 - joining an existing fleet as a trusted **family node** (sync, shared memory, message bus) →
   [ONBOARDING-FAMILY.md](ONBOARDING-FAMILY.md) — method only; fleet coordinates travel over the
   encrypted sync channel after the owner approves the device, never through this repo.

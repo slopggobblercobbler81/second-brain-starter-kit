@@ -57,7 +57,7 @@ MIT, бесплатно, никуда не звонит. Берите нужно
 Claude Code исполняет от начала до конца — человек говорит одну фразу, остальное делает агент:
 
 - **macOS** → [ONBOARDING-MAC.md](ONBOARDING-MAC.md)
-- **Windows** → [ONBOARDING-WINDOWS.md](ONBOARDING-WINDOWS.md)
+- **Windows** → [ONBOARDING-WINDOWS.md](ONBOARDING-WINDOWS.md) (руководство по настройке окружения и PowerShell: [docs/windows-setup.md](docs/windows-setup.md))
 - подключение к СВОЕМУ флоту как доверенный **семейный узел** (синк, общая память, шина) →
   [ONBOARDING-FAMILY.md](ONBOARDING-FAMILY.md) — только метод; координаты флота едут по
   зашифрованному синк-каналу после одобрения устройства владельцем, а не через этот репозиторий.
